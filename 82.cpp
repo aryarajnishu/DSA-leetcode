@@ -32,72 +32,35 @@ void print(ListNode* &head){
     cout<<endl;
 }
 
-// void deleteDuplicates(ListNode* &head) {
-//     ListNode* temp = head;
-//     while(temp->val == temp->next->val){
-//             temp = temp->next->next;
-//     }
-//     head = temp;
-//     ListNode* pre = head;
-//     ListNode* curr = pre->next;
-//     while(curr != NULL){
-//         if(curr->val=curr->next->val){
-//             pre->next = curr->next->next->next;
-//             curr = curr->next->next;
-//             continue;
-//         }
-//         pre = curr;
-//         curr=curr->next;
-//     }
-// }
-
-// void deleteDuplicates(ListNode* &head){
-//     ListNode* curr=head;
-//     ListNode* pre = NULL;
-//     if(curr->val == curr->next->val){
-//         while(curr->val == curr->next->val){
-//         pre = curr;
-//         curr=curr->next;
-//     }
-//         head = curr->next;
-//     }
-//     cout<<head->val;
-//     ListNode* curr2 = head;
-//     ListNode* pre2 = NULL;
-//     while(curr2 != NULL){
-
-//     }
-// }
-
 void deleteDuplicates(ListNode* &head){
-    ListNode* curr = head;
-    ListNode* temp = head;
-    ListNode* pre = NULL;
     vector<int> ans;
-    while(temp->next != NULL){
-        if(temp->val == temp->next->val){
-            temp = temp->next;
-        }
-        else{
-            // if(curr->val != temp->next->val){
-            //     temp = temp->next;
-            //     curr = temp;
-            //     pre->next = curr;
-            // }
-            // else{
-                pre = curr;
-                temp=temp->next;
-                curr = temp;
-                pre->next=curr;
-            // }
+    ListNode* temp = head;
+    while(temp != NULL){
+        ans.push_back(temp->val);
+        temp = temp->next;
+    }
+    unordered_map<int,int> map;
+    for(auto i: ans){
+        map[i]++;
+    }
+    vector<int> nums;
+    for(int i=0 ; i<ans.size() ; i++){
+        if(map[ans[i]] == 1) nums.push_back(ans[i]);
+    }
+    
 
-        }
+    ListNode* temp2 = new ListNode(-1);
+    ListNode* temp3 = temp2;
+    for(auto i : nums){
+       ListNode* temp4 = new ListNode(i); 
+       temp3 ->next = temp4;
+       temp3 = temp3->next;
     }
-    for(int i:ans){
-        cout<<i<<" ";
-    }
-    cout<<endl;
-    print(head);
+
+    print(temp2->next);
+
+
+
 }
 
 int main(){
@@ -116,5 +79,8 @@ int main(){
     insertAttail(tail , 7);
     insertAttail(tail , 8);
     print(head);
+    cout<<endl;
     deleteDuplicates(head);
+
+    
 }
