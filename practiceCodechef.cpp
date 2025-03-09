@@ -1,34 +1,47 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 
+vector<pair<int, int>> getDistinctIntervals(vector<pair<int, int>> &intervals) {
+    if (intervals.empty()) return {};
+
+    // Sort intervals based on the starting point
+    sort(intervals.begin(), intervals.end());
+
+    vector<pair<int, int>> distinctIntervals;
+    int start = intervals[0].first, end = intervals[0].second;
+
+    for (int i = 1; i < intervals.size(); i++) {
+        if (intervals[i].first > end) {
+            // Push the previous interval and start a new one
+            distinctIntervals.push_back({start, end});
+            start = intervals[i].first;
+            end = intervals[i].second;
+        } else {
+            // Merge overlapping or touching intervals
+            end = max(end, intervals[i].second);
+        }
+    }
+
+    // Push the last interval
+    distinctIntervals.push_back({start, end});
+
+    return distinctIntervals;
+}
+
 int main() {
-    string s = "2523533";
-    int n = s.size();
-    unordered_map<char, int> mp;
-    set<pair<char, int>> st;
+    vector<pair<int, int>> intervals = {{2, 4}, {3, 5}, {5, 8}};
 
-    for(int i=0 ; i<n ; i++){
-        if(mp.find(s[i]) == mp.end()){
-            mp[s[i]] = 1;
-        }
+    vector<pair<int, int>> distinctIntervals = getDistinctIntervals(intervals);
+
+    cout << "Distinct Intervals: \n";
+    for (auto &interval : distinctIntervals) {
+        cout << "{" << interval.first << ", " << interval.second << "}\n";
     }
 
-    for (int i = 0; i < n; i++) {
-        mp[s[i]]++;
-    }
+    cout << "Total Distinct Intervals: " << distinctIntervals.size() << endl;
 
-    for (auto x : mp) {
-        cout << x.first << " " << x.second << endl;
-    }
-
-    
-
-    for (auto x : mp) {
-        int num = stoi(string(1, x.first)); // Convert char to string before stoi()
-        if (num == x.second) {
-            ans.push_back(x.first);
-        }
-    }
-
-    
-};
+    return 0;
+}
